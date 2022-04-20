@@ -25,9 +25,13 @@ public class App
         two.addWater(1);
         log.append(new LogEntry(Instant.now(), "ADD", two.getName(), 1));
 
+        // temp 4 test
+        var temp = new LogEntry(Instant.now(), "ADD", two.getName(), 2);
+        temp.setSuccess(false);
+
         two.swap(one, 2);
         log.append(new LogEntry(Instant.now(), "SUB", one.getName(), 2));
-        log.append(new LogEntry(Instant.now(), "ADD", two.getName(), 2));
+        log.append(temp);
 
         System.out.println(one);
         System.out.println(two);
@@ -36,5 +40,9 @@ public class App
         var highAmountOfWater = hub.findTheBiggestAmountOfWater();
         var highPercentageOfWater = hub.findTheBiggestPercentageOfWater();
         var empties = hub.findEmptyContainers();
+
+        var res = log.getContainerNameWithTheMostErrors();
+        var x = log.getContainerWithMaxOpType("ADD");
+        var y = log.getContainerWithMaxOpType("SUB");
     }
 }
