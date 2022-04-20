@@ -111,5 +111,9 @@ public class Container {
         this.maxCapacity = maxCapacity;
     }
 
+    public double getPercentage() {
+        return actualCapacity / maxCapacity;
+    }
+
     // endregion
 }
