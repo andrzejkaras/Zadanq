@@ -36,4 +36,13 @@ public class ContainerHub {
             .filter(container -> container.getActualCapacity() == 0)
             .toList();
     }
+
+    public double getActualCapacityByName(String name) {
+        var temp = CONTAINERS.stream().filter(container -> container.getName().equals(name)).findFirst().orElse(null);
+        if (temp != null) {
+            return temp.getActualCapacity();
+        }
+
+        throw new IllegalArgumentException("Invalid name!");
+    }
 }

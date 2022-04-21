@@ -27,7 +27,7 @@ public class App
 
         // temp 4 test
         var temp = new LogEntry(Instant.now(), "ADD", two.getName(), 2);
-        temp.setSuccess(false);
+//        temp.setSuccess(false);
 
         two.swap(one, 2);
         log.append(new LogEntry(Instant.now(), "SUB", one.getName(), 2));
@@ -44,5 +44,16 @@ public class App
         var res = log.getContainerNameWithTheMostErrors();
         var x = log.getContainerWithMaxOpType("ADD");
         var y = log.getContainerWithMaxOpType("SUB");
+
+        var isEqual1 = verify("1", hub, log);
+        var isEqual2 = verify("2", hub, log);
+        var isEqual3 = verify("3", hub, log);
+    }
+
+    private static boolean verify(String name, ContainerHub hub, ApplicationLog log) {
+        var actual = hub.getActualCapacityByName(name);
+        var squashed = log.squashCapacityFor(name);
+
+        return actual == squashed;
     }
 }

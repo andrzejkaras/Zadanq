@@ -81,4 +81,22 @@ public class ApplicationLog {
             map.merge(container, 1, Integer::sum);
         }
     }
+
+    public double squashCapacityFor(String name) {
+        var temp = LOG.stream()
+            .filter(entry -> entry.getContainerName().equals(name))
+            .sorted(Comparator.comparing(LogEntry::getCreated))
+            .toList();
+
+        double capacity = 0;
+        for (var entry: temp) {
+            if (entry.isSuccess() && entry.getOperationName().equals("ADD")) {
+                capacity += entry.getDelta();
+            } else if (entry.isSuccess() && entry.getOperationName().equals("SUB")) {
+                capacity -= entry.getDelta();
+            }
+        }
+
+        return capacity;
+    }
 }
