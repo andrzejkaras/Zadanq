@@ -2,6 +2,7 @@ package org;
 
 import org.actionLog.*;
 import org.container.*;
+import org.verifier.*;
 
 import java.time.*;
 
@@ -25,9 +26,7 @@ public class App
         two.addWater(1);
         log.append(new LogEntry(Instant.now(), "ADD", two.getName(), 1));
 
-        // temp 4 test
         var temp = new LogEntry(Instant.now(), "ADD", two.getName(), 2);
-//        temp.setSuccess(false);
 
         two.swap(one, 2);
         log.append(new LogEntry(Instant.now(), "SUB", one.getName(), 2));
@@ -41,19 +40,13 @@ public class App
         var highPercentageOfWater = hub.findTheBiggestPercentageOfWater();
         var empties = hub.findEmptyContainers();
 
-        var res = log.getContainerNameWithTheMostErrors();
-        var x = log.getContainerWithMaxOpType("ADD");
-        var y = log.getContainerWithMaxOpType("SUB");
+        var maxErrors = log.getContainerNameWithTheMostErrors();
+        var maxAddOp = log.getContainerWithMaxOpType("ADD");
+        var maxSubOp = log.getContainerWithMaxOpType("SUB");
 
-        var isEqual1 = verify("1", hub, log);
-        var isEqual2 = verify("2", hub, log);
-        var isEqual3 = verify("3", hub, log);
-    }
-
-    private static boolean verify(String name, ContainerHub hub, ApplicationLog log) {
-        var actual = hub.getActualCapacityByName(name);
-        var squashed = log.squashCapacityFor(name);
-
-        return actual == squashed;
+        StateVerifier verifier = new StateVerifier(hub, log);
+        var containerOneIsOk = verifier.check("1");
+        var containerTwoIsOk = verifier.check("2");
+        var containerThreeIsOk = verifier.check("3");
     }
 }
