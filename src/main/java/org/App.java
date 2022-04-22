@@ -1,6 +1,7 @@
 package org;
 
 import org.actionLog.*;
+import org.commons.*;
 import org.container.*;
 import org.applicationManager.*;
 
@@ -25,8 +26,8 @@ public class App {
         EventStatsProvider eventStatsProvider = applicationManager.getEventStatsProvider();
 
         var maxErrors = eventStatsProvider.getContainerNameWithTheMostErrors();
-        var maxAddOp = eventStatsProvider.getContainerWithMaxOpType("ADD");
-        var maxSubOp = eventStatsProvider.getContainerWithMaxOpType("SUB");
+        var maxAddOp = eventStatsProvider.getContainerWithMaxOpType(Operation.ADD);
+        var maxSubOp = eventStatsProvider.getContainerWithMaxOpType(Operation.SUB);
 
         var containerOneIsOk = applicationManager.verifyState("1");
         var containerTwoIsOk = applicationManager.verifyState("2");

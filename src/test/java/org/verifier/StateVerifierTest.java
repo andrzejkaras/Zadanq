@@ -1,6 +1,7 @@
 package org.verifier;
 
 import org.actionLog.*;
+import org.commons.*;
 import org.container.*;
 import org.junit.*;
 
@@ -25,14 +26,14 @@ public class StateVerifierTest {
         hub.add(three);
 
         one.addWater(4);
-        log.append(new LogEntry(Instant.now(), "ADD", one.getName(), 4));
+        log.append(new LogEntry(Instant.now(), Operation.ADD, one.getName(), 4));
 
         two.addWater(1);
-        log.append(new LogEntry(Instant.now(), "ADD", two.getName(), 1));
+        log.append(new LogEntry(Instant.now(), Operation.ADD, two.getName(), 1));
 
         two.swap(one, 2);
-        log.append(new LogEntry(Instant.now(), "SUB", one.getName(), 2));
-        log.append(new LogEntry(Instant.now(), "ADD", two.getName(), 2));
+        log.append(new LogEntry(Instant.now(), Operation.SUB, one.getName(), 2));
+        log.append(new LogEntry(Instant.now(), Operation.ADD, two.getName(), 2));
 
         StateVerifier verifier = new BasicStateVerifier(hub, log);
 
@@ -62,15 +63,15 @@ public class StateVerifierTest {
         hub.add(three);
 
         one.addWater(4);
-        log.append(new LogEntry(Instant.now(), "ADD", one.getName(), 4));
+        log.append(new LogEntry(Instant.now(), Operation.ADD, one.getName(), 4));
 
         two.addWater(1);
-        log.append(new LogEntry(Instant.now(), "ADD", two.getName(), 1));
+        log.append(new LogEntry(Instant.now(), Operation.ADD, two.getName(), 1));
 
         two.swap(one, 2);
-        log.append(new LogEntry(Instant.now(), "SUB", one.getName(), 2));
+        log.append(new LogEntry(Instant.now(), Operation.SUB, one.getName(), 2));
 
-        var temp = new LogEntry(Instant.now(), "ADD", two.getName(), 2);
+        var temp = new LogEntry(Instant.now(), Operation.ADD, two.getName(), 2);
         temp.setSuccess(false);
         log.append(temp);
 

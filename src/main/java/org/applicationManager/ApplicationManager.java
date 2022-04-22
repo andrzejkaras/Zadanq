@@ -1,6 +1,7 @@
 package org.applicationManager;
 
 import org.actionLog.*;
+import org.commons.*;
 import org.container.*;
 import org.verifier.*;
 
@@ -31,22 +32,18 @@ public class ApplicationManager {
     public void addWater(String name, double amountOfWater) {
         Container container = hub.getByName(name);
         container.addWater(amountOfWater);
-        log.append(new LogEntry("ADD", name, amountOfWater));
+        log.append(new LogEntry(Operation.ADD, name, amountOfWater));
     }
 
     public void removeWater(String name, double amountOfWater) {
         Container container = hub.getByName(name);
         container.removeWater(amountOfWater);
-        log.append(new LogEntry("SUB", name, amountOfWater));
+        log.append(new LogEntry(Operation.SUB, name, amountOfWater));
     }
 
     public void swap(String from, String to, double amountOfWater) {
-        Container fromContainer = hub.getByName(from);
-        Container toContainer = hub.getByName(to);
-
-        fromContainer.swap(toContainer, amountOfWater);
-        log.append(new LogEntry("SUB", from, amountOfWater));
-        log.append(new LogEntry("SUB", to, amountOfWater));
+        removeWater(from, amountOfWater);
+        addWater(to, amountOfWater);
     }
 
     public ContainerStatsProvider getStatsProvider() {

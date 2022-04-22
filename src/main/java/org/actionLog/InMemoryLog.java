@@ -1,5 +1,7 @@
 package org.actionLog;
 
+import org.commons.*;
+
 import java.util.*;
 
 final class InMemoryLog implements ActionLog, EventStatsProvider {
@@ -19,7 +21,6 @@ final class InMemoryLog implements ActionLog, EventStatsProvider {
     public void append(LogEntry entry) {
         actionLog.add(entry);
         error(entry);
-
         addOp(entry);
         subOp(entry);
     }
@@ -29,10 +30,10 @@ final class InMemoryLog implements ActionLog, EventStatsProvider {
     }
 
     @Override
-    public Set<String> getContainerWithMaxOpType(String operationType) {
-        if ("ADD".equals(operationType)) {
+    public Set<String> getContainerWithMaxOpType(Operation operation) {
+        if (Operation.ADD.equals(operation)) {
             return findMaxFrom(addOperationStats);
-        } else if ("SUB".equals(operationType)) {
+        } else if (Operation.SUB.equals(operation)) {
             return findMaxFrom(subOperationStats);
         }
 
@@ -48,9 +49,9 @@ final class InMemoryLog implements ActionLog, EventStatsProvider {
 
         double capacity = 0;
         for (var entry: temp) {
-            if (entry.isSuccess() && entry.getOperationName().equals("ADD")) {
+            if (entry.isSuccess() && entry.getOperation().equals(Operation.ADD)) {
                 capacity += entry.getDelta();
-            } else if (entry.isSuccess() && entry.getOperationName().equals("SUB")) {
+            } else if (entry.isSuccess() && entry.getOperation().equals(Operation.SUB)) {
                 capacity -= entry.getDelta();
             }
         }
@@ -66,6 +67,10 @@ final class InMemoryLog implements ActionLog, EventStatsProvider {
             if (temp.getValue() > max) {
                 max = temp.getValue();
             }
+        }
+
+        if (max <= 0) {
+            return names;
         }
 
         for (var temp : map.entrySet()) {
@@ -86,7 +91,7 @@ final class InMemoryLog implements ActionLog, EventStatsProvider {
     }
 
     private void addOp(LogEntry entry) {
-        if (!entry.getOperationName().equals("ADD")) {
+        if (!entry.getOperation().equals(Operation.ADD)) {
             return;
         }
 
@@ -94,7 +99,7 @@ final class InMemoryLog implements ActionLog, EventStatsProvider {
     }
 
     private void subOp(LogEntry entry) {
-        if (!entry.getOperationName().equals("SUB")) {
+        if (!entry.getOperation().equals(Operation.SUB)) {
             return;
         }
 

@@ -1,5 +1,7 @@
 package org.actionLog;
 
+import org.commons.*;
+
 import java.util.*;
 
 public interface EventStatsProvider {
@@ -14,5 +16,5 @@ public interface EventStatsProvider {
      * @param operationType operation type
      * @return set of container's names
      */
-    Set<String> getContainerWithMaxOpType(String operationType);
+    Set<String> getContainerWithMaxOpType(Operation operationType);
 }

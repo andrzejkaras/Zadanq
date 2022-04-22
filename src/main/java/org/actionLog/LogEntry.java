@@ -1,27 +1,29 @@
 package org.actionLog;
 
+import org.commons.*;
+
 import java.time.*;
 
 public class LogEntry {
     private Instant created;
-    private String operationName;
+    private Operation operation;
     private String containerName;
     private double delta;
     private boolean success;
 
     public LogEntry() {}
 
-    public LogEntry(Instant created, String operationName, String containerName, double delta) {
+    public LogEntry(Instant created, Operation operation, String containerName, double delta) {
         this.created = created;
-        this.operationName = operationName;
+        this.operation = operation;
         this.containerName = containerName;
         this.delta = delta;
         this.success = true;
     }
 
-    public LogEntry(String operationName, String containerName, double delta) {
+    public LogEntry(Operation operation, String containerName, double delta) {
         this.created = Instant.now();
-        this.operationName = operationName;
+        this.operation = operation;
         this.containerName = containerName;
         this.delta = delta;
         this.success = true;
@@ -35,12 +37,12 @@ public class LogEntry {
         this.created = created;
     }
 
-    public String getOperationName() {
-        return operationName;
+    public Operation getOperation() {
+        return operation;
     }
 
-    public void setOperationName(String operationName) {
-        this.operationName = operationName;
+    public void setOperation(Operation operation) {
+        this.operation = operation;
     }
 
     public String getContainerName() {
