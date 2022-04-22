@@ -4,6 +4,9 @@ import org.actionLog.*;
 import org.container.*;
 import org.verifier.*;
 
+/**
+ * Facade class for main API.
+ */
 public class ApplicationManager {
     private final ContainerHub hub;
     private final ActionLog log;

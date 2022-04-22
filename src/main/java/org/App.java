@@ -3,14 +3,10 @@ package org;
 import org.actionLog.*;
 import org.container.*;
 import org.applicationManager.*;
-import org.verifier.*;
 
 public class App {
     public static void main( String[] args ) {
-        ContainerHub hub = ContainerHubFactory.get();
-        ActionLog log = ActionLogFactory.get();
-
-        ApplicationManager applicationManager = new ApplicationManager(hub, log, StateVerifierFactory.get(hub, log));
+        ApplicationManager applicationManager = ApplicationManagerFactory.get();
 
         applicationManager.createContainer("1");
         applicationManager.createContainer("2", 3);
