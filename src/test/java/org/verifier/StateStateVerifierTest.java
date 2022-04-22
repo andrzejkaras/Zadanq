@@ -13,8 +13,8 @@ public class StateStateVerifierTest {
     @Test
     public void Given_SetOfContainers_When_DefinedOperationsWouldBeDone_Then_AllContainersShouldHaveCorrectState() {
         // given
-        ContainerHub hub = new InMemoryContainerHub();
-        ApplicationLog log = new InMemoryLog();
+        ContainerHub hub = ContainerHubFactory.get();
+        ApplicationLog log = ApplicationLogFactory.get();
 
         Container one = new Container("1");
         Container two = new Container("2", 3);
@@ -50,8 +50,8 @@ public class StateStateVerifierTest {
     @Test
     public void Given_SetOfContainers_When_DefinedOperationsWouldBeDone_Then_OneContainerShouldHaveIncorrectState() {
         // given
-        InMemoryContainerHub hub = new InMemoryContainerHub();
-        InMemoryLog log = new InMemoryLog();
+        ContainerHub hub = ContainerHubFactory.get();
+        ApplicationLog log = ApplicationLogFactory.get();
 
         Container one = new Container("1");
         Container two = new Container("2", 3);

@@ -2,9 +2,14 @@ package org.container;
 
 import java.util.*;
 
-public class InMemoryContainerHub implements ContainerHub {
-    private final List<Container> containers = new ArrayList<>();
-    private final Set<String> name = new HashSet<>();
+final class InMemoryContainerHub implements ContainerHub {
+    private final List<Container> containers;
+    private final Set<String> name;
+
+    InMemoryContainerHub() {
+        this.containers = new ArrayList<>();
+        this.name = new HashSet<>();
+    }
 
     @Override
     public void add(Container container) {

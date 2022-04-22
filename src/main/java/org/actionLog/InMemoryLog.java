@@ -2,12 +2,18 @@ package org.actionLog;
 
 import java.util.*;
 
-public class InMemoryLog implements ApplicationLog {
-    private final List<LogEntry> actionLog = new ArrayList<>();
+final class InMemoryLog implements ApplicationLog {
+    private final List<LogEntry> actionLog;
+    private final Map<String, Integer> errorOperationStats;
+    private final Map<String, Integer> addOperationStats;
+    private final Map<String, Integer> subOperationStats;
 
-    private final Map<String, Integer> errorOperationStats = new HashMap<>();
-    private final Map<String, Integer> addOperationStats = new HashMap<>();
-    private final Map<String, Integer> subOperationStats = new HashMap<>();
+    InMemoryLog() {
+        this.actionLog = new ArrayList<>();
+        this.errorOperationStats = new HashMap<>();
+        this.addOperationStats = new HashMap<>();
+        this.subOperationStats = new HashMap<>();
+    }
 
     @Override
     public void append(LogEntry entry) {
@@ -21,6 +27,7 @@ public class InMemoryLog implements ApplicationLog {
     public Set<String> getContainerNameWithTheMostErrors() {
         return findMaxFrom(errorOperationStats);
     }
+
     @Override
     public Set<String> getContainerWithMaxOpType(String operationType) {
         if ("ADD".equals(operationType)) {
@@ -31,6 +38,7 @@ public class InMemoryLog implements ApplicationLog {
 
         throw new IllegalArgumentException("Invalid operation type!");
     }
+
     @Override
     public double findActualCapacity(String name) {
         var temp = actionLog.stream()

@@ -9,8 +9,8 @@ import java.time.*;
 public class App
 {
     public static void main( String[] args ) {
-        ContainerHub hub = new InMemoryContainerHub();
-        ApplicationLog log = new InMemoryLog();
+        ContainerHub hub = ContainerHubFactory.get();
+        ApplicationLog log = ApplicationLogFactory.get();
 
         var one = new Container("1");
         var two = new Container("2", 3);
@@ -44,7 +44,7 @@ public class App
         var maxAddOp = log.getContainerWithMaxOpType("ADD");
         var maxSubOp = log.getContainerWithMaxOpType("SUB");
 
-        BasicStateVerifier verifier = new BasicStateVerifier(hub, log);
+        StateVerifier verifier = StateVerifierFactory.get(hub, log);
         var containerOneIsOk = verifier.check("1");
         var containerTwoIsOk = verifier.check("2");
         var containerThreeIsOk = verifier.check("3");
