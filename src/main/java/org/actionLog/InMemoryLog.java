@@ -2,7 +2,7 @@ package org.actionLog;
 
 import java.util.*;
 
-final class InMemoryLog implements ApplicationLog {
+final class InMemoryLog implements ActionLog, EventStatsProvider {
     private final List<LogEntry> actionLog;
     private final Map<String, Integer> errorOperationStats;
     private final Map<String, Integer> addOperationStats;

@@ -15,24 +15,6 @@ public interface ContainerHub {
     void add(Container container);
 
     /**
-     * Returns container with the biggest amount of water
-     * @return container
-     */
-    Container findTheBiggestAmountOfWater();
-
-    /**
-     * Returns container with the biggest percentage of water
-     * @return container
-     */
-    Container findTheBiggestPercentageOfWater();
-
-    /**
-     * Returns list of empty containers
-     * @return empty containers as list
-     */
-    List<Container> findEmptyContainers();
-
-    /**
      * Returns actual capacity for given container
      *
      * @param name container name
@@ -40,4 +22,6 @@ public interface ContainerHub {
      * @return actual capacity
      */
     double getActualCapacityByName(String name);
+
+    Container getByName(String name);
 }

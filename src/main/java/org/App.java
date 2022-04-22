@@ -2,51 +2,38 @@ package org;
 
 import org.actionLog.*;
 import org.container.*;
+import org.applicationManager.*;
 import org.verifier.*;
 
-import java.time.*;
-
-public class App
-{
+public class App {
     public static void main( String[] args ) {
         ContainerHub hub = ContainerHubFactory.get();
-        ApplicationLog log = ApplicationLogFactory.get();
+        ActionLog log = ActionLogFactory.get();
 
-        var one = new Container("1");
-        var two = new Container("2", 3);
-        var three = new Container("3", 10);
+        ApplicationManager applicationManager = new ApplicationManager(hub, log, StateVerifierFactory.get(hub, log));
 
-        hub.add(one);
-        hub.add(two);
-        hub.add(three);
+        applicationManager.createContainer("1");
+        applicationManager.createContainer("2", 3);
+        applicationManager.createContainer("3", 10);
 
-        one.addWater(4);
-        log.append(new LogEntry(Instant.now(), "ADD", one.getName(), 4));
+        applicationManager.addWater("1", 4);
+        applicationManager.addWater("2", 1);
+        applicationManager.swap("2", "1", 2);
 
-        two.addWater(1);
-        log.append(new LogEntry(Instant.now(), "ADD", two.getName(), 1));
+        ContainerStatsProvider containerStatsProvider = applicationManager.getStatsProvider();
 
-        var temp = new LogEntry(Instant.now(), "ADD", two.getName(), 2);
+        var highAmountOfWater = containerStatsProvider.findTheBiggestAmountOfWater();
+        var highPercentageOfWater = containerStatsProvider.findTheBiggestPercentageOfWater();
+        var empties = containerStatsProvider.findEmptyContainers();
 
-        two.swap(one, 2);
-        log.append(new LogEntry(Instant.now(), "SUB", one.getName(), 2));
-        log.append(temp);
+        EventStatsProvider eventStatsProvider = applicationManager.getEventStatsProvider();
 
-        System.out.println(one);
-        System.out.println(two);
-        System.out.println(three);
+        var maxErrors = eventStatsProvider.getContainerNameWithTheMostErrors();
+        var maxAddOp = eventStatsProvider.getContainerWithMaxOpType("ADD");
+        var maxSubOp = eventStatsProvider.getContainerWithMaxOpType("SUB");
 
-        var highAmountOfWater = hub.findTheBiggestAmountOfWater();
-        var highPercentageOfWater = hub.findTheBiggestPercentageOfWater();
-        var empties = hub.findEmptyContainers();
-
-        var maxErrors = log.getContainerNameWithTheMostErrors();
-        var maxAddOp = log.getContainerWithMaxOpType("ADD");
-        var maxSubOp = log.getContainerWithMaxOpType("SUB");
-
-        StateVerifier verifier = StateVerifierFactory.get(hub, log);
-        var containerOneIsOk = verifier.check("1");
-        var containerTwoIsOk = verifier.check("2");
-        var containerThreeIsOk = verifier.check("3");
+        var containerOneIsOk = applicationManager.verifyState("1");
+        var containerTwoIsOk = applicationManager.verifyState("2");
+        var containerThreeIsOk = applicationManager.verifyState("3");
     }
 }

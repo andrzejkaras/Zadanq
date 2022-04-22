@@ -19,6 +19,14 @@ public class LogEntry {
         this.success = true;
     }
 
+    public LogEntry(String operationName, String containerName, double delta) {
+        this.created = Instant.now();
+        this.operationName = operationName;
+        this.containerName = containerName;
+        this.delta = delta;
+        this.success = true;
+    }
+
     public Instant getCreated() {
         return created;
     }

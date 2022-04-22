@@ -2,7 +2,7 @@ package org.container;
 
 import java.util.*;
 
-final class InMemoryContainerHub implements ContainerHub {
+final class InMemoryContainerHub implements ContainerHub, ContainerStatsProvider {
     private final List<Container> containers;
     private final Set<String> name;
 
@@ -48,11 +48,18 @@ final class InMemoryContainerHub implements ContainerHub {
 
     @Override
     public double getActualCapacityByName(String name) {
-        var temp = containers.stream().filter(container -> container.getName().equals(name)).findFirst().orElse(null);
+        var temp = getByName(name);
         if (temp != null) {
             return temp.getActualCapacity();
         }
 
         throw new IllegalArgumentException("Invalid name!");
+    }
+
+    @Override
+    public Container getByName(String name) {
+        return containers.stream()
+            .filter(container -> container.getName().equals(name)).findFirst()
+            .orElse(null);
     }
 }

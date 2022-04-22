@@ -12,7 +12,7 @@ public class ApplicationLogTest {
     @Test
     public void Given_EventLogWithEntries_WhenWeAskForErrors_ContainerThreeShouldBeReturned() {
         // given
-        ApplicationLog log = new InMemoryLog();
+        InMemoryLog log = new InMemoryLog();
 
         // when
         log.append(new LogEntry(Instant.now(), "ADD", "1", 4));
@@ -36,7 +36,7 @@ public class ApplicationLogTest {
     @Test
     public void Given_EventLogWithEntries_WhenWeAskForAddAction_ContainerTwoShouldBeReturned() {
         // given
-        ApplicationLog log = new InMemoryLog();
+        InMemoryLog log = new InMemoryLog();
 
         // when
         log.append(new LogEntry(Instant.now(), "ADD", "1", 4));
@@ -60,7 +60,7 @@ public class ApplicationLogTest {
     @Test
     public void Given_EventLogWithEntries_WhenWeAskForSubAction_ContainerOneShouldBeReturned() {
         // given
-        ApplicationLog log = new InMemoryLog();
+        InMemoryLog log = new InMemoryLog();
 
         // when
         log.append(new LogEntry(Instant.now(), "ADD", "1", 4));
@@ -84,7 +84,7 @@ public class ApplicationLogTest {
     @Test
     public void Given_EventLogWithEntries_WhenWeAskForSubAction_SquashedAmountOfWaterShouldBeCorrect() {
         // given
-        ApplicationLog log = new InMemoryLog();
+        InMemoryLog log = new InMemoryLog();
 
         // when
         log.append(new LogEntry(Instant.now(), "ADD", "1", 4));

@@ -1,13 +1,13 @@
 package org.verifier;
 
 import org.container.ContainerHub;
-import org.actionLog.ApplicationLog;
+import org.actionLog.ActionLog;
 
 final class BasicStateVerifier implements StateVerifier {
     private final ContainerHub hub;
-    private final ApplicationLog log;
+    private final ActionLog log;
 
-    BasicStateVerifier(ContainerHub hub, ApplicationLog log) {
+    BasicStateVerifier(ContainerHub hub, ActionLog log) {
         this.hub = hub;
         this.log = log;
     }

@@ -4,12 +4,12 @@ import org.junit.*;
 
 import static org.junit.Assert.assertEquals;
 
-public class ContainerTest {
+public class ContainerHubTest {
 
     @Test
     public void Given_SetOfContainers_When_DefinedOperationsWouldBeDone_Then_ContainerWithTheHighestAmountOfWaterIsEqualTo() {
         // given
-        ContainerHub hub = new InMemoryContainerHub();
+        InMemoryContainerHub hub = new InMemoryContainerHub();
         var one = new Container("1");
         var two = new Container("2", 3);
         var three = new Container("3", 10);
@@ -32,7 +32,7 @@ public class ContainerTest {
     @Test
     public void Given_SetOfContainers_When_DefinedOperationsWouldBeDone_Then_ContainerWithTheHighestPercentageOfWaterIsEqualTo() {
         // given
-        ContainerHub hub = new InMemoryContainerHub();
+        InMemoryContainerHub hub = new InMemoryContainerHub();
         var one = new Container("1");
         var two = new Container("2", 3);
         var three = new Container("3", 10);
@@ -55,7 +55,7 @@ public class ContainerTest {
     @Test
     public void Given_SetOfContainers_When_DefinedOperationsWouldBeDone_Then_EmptyContainersAre() {
         // given
-        ContainerHub hub = new InMemoryContainerHub();
+        InMemoryContainerHub hub = new InMemoryContainerHub();
         var one = new Container("1");
         var two = new Container("2", 3);
         var three = new Container("3", 10);
@@ -79,7 +79,7 @@ public class ContainerTest {
     @Test
     public void Given_SetOfContainers_When_DefinedOperationsWouldBeDone_Then_ContainersShouldHaveCorrectAmountOfWater() {
         // given
-        ContainerHub hub = new InMemoryContainerHub();
+        InMemoryContainerHub hub = new InMemoryContainerHub();
         var one = new Container("1");
         var two = new Container("2", 3);
         var three = new Container("3", 10);

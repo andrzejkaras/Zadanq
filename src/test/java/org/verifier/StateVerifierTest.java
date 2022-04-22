@@ -9,12 +9,12 @@ import java.time.*;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class StateStateVerifierTest {
+public class StateVerifierTest {
     @Test
     public void Given_SetOfContainers_When_DefinedOperationsWouldBeDone_Then_AllContainersShouldHaveCorrectState() {
         // given
         ContainerHub hub = ContainerHubFactory.get();
-        ApplicationLog log = ApplicationLogFactory.get();
+        ActionLog log = ActionLogFactory.get();
 
         Container one = new Container("1");
         Container two = new Container("2", 3);
@@ -51,7 +51,7 @@ public class StateStateVerifierTest {
     public void Given_SetOfContainers_When_DefinedOperationsWouldBeDone_Then_OneContainerShouldHaveIncorrectState() {
         // given
         ContainerHub hub = ContainerHubFactory.get();
-        ApplicationLog log = ApplicationLogFactory.get();
+        ActionLog log = ActionLogFactory.get();
 
         Container one = new Container("1");
         Container two = new Container("2", 3);
