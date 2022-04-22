@@ -1,21 +1,13 @@
 package org.verifier;
 
-import org.actionLog.*;
-import org.container.*;
+public interface StateVerifier {
 
-public class StateVerifier {
-    private final ContainerHub hub;
-    private final ApplicationLog log;
-
-    public StateVerifier(ContainerHub hub, ApplicationLog log) {
-        this.hub = hub;
-        this.log = log;
-    }
-
-    public boolean check(String name) {
-        var actual = hub.getActualCapacityByName(name);
-        var squashed = log.squashCapacityFor(name);
-
-        return actual == squashed;
-    }
+    /**
+     * Verifies whether container state is similar
+     * to state stored in application log.
+     *
+     * @param name container name
+     * @return true when state is valid, false otherwise
+     */
+    boolean check(String name);
 }

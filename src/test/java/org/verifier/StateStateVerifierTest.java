@@ -9,12 +9,12 @@ import java.time.*;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class StateVerifierTest {
+public class StateStateVerifierTest {
     @Test
     public void Given_SetOfContainers_When_DefinedOperationsWouldBeDone_Then_AllContainersShouldHaveCorrectState() {
         // given
-        ContainerHub hub = new ContainerHub();
-        ApplicationLog log = new ApplicationLog();
+        ContainerHub hub = new InMemoryContainerHub();
+        ApplicationLog log = new InMemoryLog();
 
         Container one = new Container("1");
         Container two = new Container("2", 3);
@@ -34,7 +34,7 @@ public class StateVerifierTest {
         log.append(new LogEntry(Instant.now(), "SUB", one.getName(), 2));
         log.append(new LogEntry(Instant.now(), "ADD", two.getName(), 2));
 
-        StateVerifier verifier = new StateVerifier(hub, log);
+        StateVerifier verifier = new BasicStateVerifier(hub, log);
 
         // when
         boolean containerOneHasValidState = verifier.check("1");
@@ -50,8 +50,8 @@ public class StateVerifierTest {
     @Test
     public void Given_SetOfContainers_When_DefinedOperationsWouldBeDone_Then_OneContainerShouldHaveIncorrectState() {
         // given
-        ContainerHub hub = new ContainerHub();
-        ApplicationLog log = new ApplicationLog();
+        InMemoryContainerHub hub = new InMemoryContainerHub();
+        InMemoryLog log = new InMemoryLog();
 
         Container one = new Container("1");
         Container two = new Container("2", 3);
@@ -74,7 +74,7 @@ public class StateVerifierTest {
         temp.setSuccess(false);
         log.append(temp);
 
-        StateVerifier verifier = new StateVerifier(hub, log);
+        StateVerifier verifier = new BasicStateVerifier(hub, log);
 
         // when
         boolean containerOneHasValidState = verifier.check("1");

@@ -12,7 +12,7 @@ public class ApplicationLogTest {
     @Test
     public void Given_EventLogWithEntries_WhenWeAskForErrors_ContainerThreeShouldBeReturned() {
         // given
-        ApplicationLog log = new ApplicationLog();
+        ApplicationLog log = new InMemoryLog();
 
         // when
         log.append(new LogEntry(Instant.now(), "ADD", "1", 4));
@@ -36,7 +36,7 @@ public class ApplicationLogTest {
     @Test
     public void Given_EventLogWithEntries_WhenWeAskForAddAction_ContainerTwoShouldBeReturned() {
         // given
-        ApplicationLog log = new ApplicationLog();
+        ApplicationLog log = new InMemoryLog();
 
         // when
         log.append(new LogEntry(Instant.now(), "ADD", "1", 4));
@@ -60,7 +60,7 @@ public class ApplicationLogTest {
     @Test
     public void Given_EventLogWithEntries_WhenWeAskForSubAction_ContainerOneShouldBeReturned() {
         // given
-        ApplicationLog log = new ApplicationLog();
+        ApplicationLog log = new InMemoryLog();
 
         // when
         log.append(new LogEntry(Instant.now(), "ADD", "1", 4));
@@ -84,7 +84,7 @@ public class ApplicationLogTest {
     @Test
     public void Given_EventLogWithEntries_WhenWeAskForSubAction_SquashedAmountOfWaterShouldBeCorrect() {
         // given
-        ApplicationLog log = new ApplicationLog();
+        ApplicationLog log = new InMemoryLog();
 
         // when
         log.append(new LogEntry(Instant.now(), "ADD", "1", 4));
@@ -98,7 +98,7 @@ public class ApplicationLogTest {
 
         log.append(errorLog);
 
-        var capacity = log.squashCapacityFor("2");
+        var capacity = log.findActualCapacity("2");
 
         // then
         assertEquals( 3.0, capacity, 0.001);

@@ -2,47 +2,42 @@ package org.container;
 
 import java.util.*;
 
-public class ContainerHub {
-    private final List<Container> containers = new ArrayList<>();
-    private final Set<String> name = new HashSet<>();
+/**
+ * Container hub
+ *
+ * It could be used for storing containers independent of storage used.
+ */
+public interface ContainerHub {
+    /**
+     * Adds container
+     * @param container new container
+     */
+    void add(Container container);
 
-    public void add(Container container) {
-        final String name = container.getName();
-        if (this.name.contains(name)) {
-            throw new IllegalStateException("Container with name: " + name + " already exists!");
-        }
+    /**
+     * Returns container with the biggest amount of water
+     * @return container
+     */
+    Container findTheBiggestAmountOfWater();
 
-        this.name.add(name);
-        containers.add(container);
-    }
+    /**
+     * Returns container with the biggest percentage of water
+     * @return container
+     */
+    Container findTheBiggestPercentageOfWater();
 
-    public Container findTheBiggestAmountOfWater() {
-         return containers
-             .stream()
-             .max(Comparator.comparingDouble(Container::getActualCapacity))
-             .orElse(null);
-    }
+    /**
+     * Returns list of empty containers
+     * @return empty containers as list
+     */
+    List<Container> findEmptyContainers();
 
-    public Container findTheBiggestPercentageOfWater() {
-        return containers
-                .stream()
-                .max(Comparator.comparingDouble(Container::getPercentage))
-                .orElse(null);
-    }
-
-    public List<Container> findEmptyContainers() {
-        return containers
-            .stream()
-            .filter(container -> container.getActualCapacity() == 0)
-            .toList();
-    }
-
-    public double getActualCapacityByName(String name) {
-        var temp = containers.stream().filter(container -> container.getName().equals(name)).findFirst().orElse(null);
-        if (temp != null) {
-            return temp.getActualCapacity();
-        }
-
-        throw new IllegalArgumentException("Invalid name!");
-    }
+    /**
+     * Returns actual capacity for given container
+     *
+     * @param name container name
+     *
+     * @return actual capacity
+     */
+    double getActualCapacityByName(String name);
 }
