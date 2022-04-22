@@ -8,6 +8,9 @@ import org.verifier.*;
 /**
  * Facade class for main API.
  */
+// TODO: remove StateVerifier
+// TODO: add unit tests
+// TODO: improve return values eg. container.addWater should return boolean
 public class ApplicationManager {
     private final ContainerHub hub;
     private final ActionLog log;
