@@ -3,42 +3,42 @@ package org.container;
 import java.util.*;
 
 public class ContainerHub {
-    private static final List<Container> CONTAINERS = new ArrayList<>();
-    private static final Set<String> NAMES = new HashSet<>();
+    private final List<Container> containers = new ArrayList<>();
+    private final Set<String> name = new HashSet<>();
 
     public void add(Container container) {
         final String name = container.getName();
-        if (NAMES.contains(name)) {
+        if (this.name.contains(name)) {
             throw new IllegalStateException("Container with name: " + name + " already exists!");
         }
 
-        NAMES.add(name);
-        CONTAINERS.add(container);
+        this.name.add(name);
+        containers.add(container);
     }
 
     public Container findTheBiggestAmountOfWater() {
-         return CONTAINERS
+         return containers
              .stream()
              .max(Comparator.comparingDouble(Container::getActualCapacity))
              .orElse(null);
     }
 
     public Container findTheBiggestPercentageOfWater() {
-        return CONTAINERS
+        return containers
                 .stream()
                 .max(Comparator.comparingDouble(Container::getPercentage))
                 .orElse(null);
     }
 
     public List<Container> findEmptyContainers() {
-        return CONTAINERS
+        return containers
             .stream()
             .filter(container -> container.getActualCapacity() == 0)
             .toList();
     }
 
     public double getActualCapacityByName(String name) {
-        var temp = CONTAINERS.stream().filter(container -> container.getName().equals(name)).findFirst().orElse(null);
+        var temp = containers.stream().filter(container -> container.getName().equals(name)).findFirst().orElse(null);
         if (temp != null) {
             return temp.getActualCapacity();
         }

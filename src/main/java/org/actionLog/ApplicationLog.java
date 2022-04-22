@@ -3,14 +3,14 @@ package org.actionLog;
 import java.util.*;
 
 public class ApplicationLog {
-    private static final List<LogEntry> LOG = new ArrayList<>();
+    private final List<LogEntry> actionLog = new ArrayList<>();
 
-    private static final Map<String, Integer> errors = new HashMap<>();
-    private static final Map<String, Integer> addOp = new HashMap<>();
-    private static final Map<String, Integer> subOp = new HashMap<>();
+    private final Map<String, Integer> errorOperationStats = new HashMap<>();
+    private final Map<String, Integer> addOperationStats = new HashMap<>();
+    private final Map<String, Integer> subOperationStats = new HashMap<>();
 
     public void append(LogEntry entry) {
-        LOG.add(entry);
+        actionLog.add(entry);
         error(entry);
 
         addOp(entry);
@@ -18,17 +18,35 @@ public class ApplicationLog {
     }
 
     public Set<String> getContainerNameWithTheMostErrors() {
-        return findMaxFrom(errors);
+        return findMaxFrom(errorOperationStats);
     }
 
     public Set<String> getContainerWithMaxOpType(String operationType) {
         if ("ADD".equals(operationType)) {
-            return findMaxFrom(addOp);
+            return findMaxFrom(addOperationStats);
         } else if ("SUB".equals(operationType)) {
-            return findMaxFrom(subOp);
+            return findMaxFrom(subOperationStats);
         }
 
         throw new IllegalArgumentException("Invalid operation type!");
+    }
+
+    public double squashCapacityFor(String name) {
+        var temp = actionLog.stream()
+                .filter(entry -> entry.getContainerName().equals(name))
+                .sorted(Comparator.comparing(LogEntry::getCreated))
+                .toList();
+
+        double capacity = 0;
+        for (var entry: temp) {
+            if (entry.isSuccess() && entry.getOperationName().equals("ADD")) {
+                capacity += entry.getDelta();
+            } else if (entry.isSuccess() && entry.getOperationName().equals("SUB")) {
+                capacity -= entry.getDelta();
+            }
+        }
+
+        return capacity;
     }
 
     private Set<String> findMaxFrom(Map<String, Integer> map) {
@@ -55,7 +73,7 @@ public class ApplicationLog {
             return;
         }
 
-        calculate(errors, entry.getContainerName());
+        calculate(errorOperationStats, entry.getContainerName());
     }
 
     private void addOp(LogEntry entry) {
@@ -63,7 +81,7 @@ public class ApplicationLog {
             return;
         }
 
-        calculate(addOp, entry.getContainerName());
+        calculate(addOperationStats, entry.getContainerName());
     }
 
     private void subOp(LogEntry entry) {
@@ -71,7 +89,7 @@ public class ApplicationLog {
             return;
         }
 
-        calculate(subOp, entry.getContainerName());
+        calculate(subOperationStats, entry.getContainerName());
     }
 
     private void calculate(Map<String, Integer> map, String container) {
@@ -80,23 +98,5 @@ public class ApplicationLog {
         } else {
             map.merge(container, 1, Integer::sum);
         }
-    }
-
-    public double squashCapacityFor(String name) {
-        var temp = LOG.stream()
-            .filter(entry -> entry.getContainerName().equals(name))
-            .sorted(Comparator.comparing(LogEntry::getCreated))
-            .toList();
-
-        double capacity = 0;
-        for (var entry: temp) {
-            if (entry.isSuccess() && entry.getOperationName().equals("ADD")) {
-                capacity += entry.getDelta();
-            } else if (entry.isSuccess() && entry.getOperationName().equals("SUB")) {
-                capacity -= entry.getDelta();
-            }
-        }
-
-        return capacity;
     }
 }
