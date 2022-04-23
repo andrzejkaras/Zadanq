@@ -3,8 +3,6 @@ package org.actionLog;
 import org.commons.*;
 import org.junit.*;
 
-import java.time.*;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -16,22 +14,19 @@ public class ApplicationLogTest {
         InMemoryLog log = new InMemoryLog();
 
         // when
-        log.append(new LogEntry(Instant.now(), Operation.ADD, "1", 4));
-        log.append(new LogEntry(Instant.now(), Operation.ADD, "2", 1));
+        log.append(new LogEntry(Operation.ADD, "1", 4, true));
+        log.append(new LogEntry(Operation.ADD, "2", 1, true));
 
-        log.append(new LogEntry(Instant.now(), Operation.SUB, "1", 2));
-        log.append(new LogEntry(Instant.now(), Operation.ADD, "2", 2));
+        log.append(new LogEntry(Operation.SUB, "1", 2, true));
+        log.append(new LogEntry(Operation.ADD, "2", 2, true));
 
-        var errorLog = new LogEntry(Instant.now(), Operation.ADD, "3", 2);
-        errorLog.setSuccess(false);
+        log.append(new LogEntry(Operation.ADD, "3", 2, false));
 
-        log.append(errorLog);
-
-        var result = log.getContainerNameWithTheMostErrors();
+        var containersWithErrors = log.getContainerNameWithTheMostErrors();
 
         // then
-        assertTrue("Container with errors should be equals 3", result.contains("3"));
-        assertEquals("Result should contain one container name", 1, result.size());
+        assertTrue("Container with errors should be equals 3", containersWithErrors.contains("3"));
+        assertEquals("Result should contain one container name", 1, containersWithErrors.size());
     }
 
     @Test
@@ -40,21 +35,19 @@ public class ApplicationLogTest {
         InMemoryLog log = new InMemoryLog();
 
         // when
-        log.append(new LogEntry(Instant.now(), Operation.ADD, "1", 4));
-        log.append(new LogEntry(Instant.now(), Operation.ADD, "2", 1));
+        log.append(new LogEntry(Operation.ADD, "1", 4, true));
+        log.append(new LogEntry(Operation.ADD, "2", 1, true));
 
-        log.append(new LogEntry(Instant.now(), Operation.SUB, "1", 2));
-        log.append(new LogEntry(Instant.now(), Operation.ADD, "2", 2));
+        log.append(new LogEntry(Operation.SUB, "1", 2, true));
+        log.append(new LogEntry(Operation.ADD, "2", 2, true));
 
-        var errorLog = new LogEntry(Instant.now(), Operation.ADD, "3", 2);
+        log.append(new LogEntry(Operation.ADD, "3", 2, true));
 
-        log.append(errorLog);
-
-        var result = log.getContainerWithMaxOpType(Operation.ADD);
+        var containersWithAddOps = log.getContainerWithMaxOpType(Operation.ADD);
 
         // then
-        assertTrue("Container with the biggest amount of ADD actions", result.contains("2"));
-        assertEquals("Result should contain one container name", 1, result.size());
+        assertTrue("Container with the biggest amount of ADD actions", containersWithAddOps.contains("2"));
+        assertEquals("Result should contain one container name", 1, containersWithAddOps.size());
     }
 
     @Test
@@ -63,16 +56,13 @@ public class ApplicationLogTest {
         InMemoryLog log = new InMemoryLog();
 
         // when
-        log.append(new LogEntry(Instant.now(), Operation.ADD, "1", 4));
-        log.append(new LogEntry(Instant.now(), Operation.ADD, "2", 1));
+        log.append(new LogEntry(Operation.ADD, "1", 4, true));
+        log.append(new LogEntry(Operation.ADD, "2", 1, true));
 
-        log.append(new LogEntry(Instant.now(), Operation.SUB, "1", 2));
-        log.append(new LogEntry(Instant.now(), Operation.ADD, "2", 2));
+        log.append(new LogEntry(Operation.SUB, "1", 2, true));
+        log.append(new LogEntry(Operation.ADD, "2", 2, true));
 
-        var errorLog = new LogEntry(Instant.now(), Operation.ADD, "3", 2);
-//        errorLog.setSuccess(false);
-
-        log.append(errorLog);
+        log.append(new LogEntry(Operation.ADD, "3", 2, true));
 
         var result = log.getContainerWithMaxOpType(Operation.SUB);
 
@@ -87,20 +77,17 @@ public class ApplicationLogTest {
         InMemoryLog log = new InMemoryLog();
 
         // when
-        log.append(new LogEntry(Instant.now(), Operation.ADD, "1", 4));
-        log.append(new LogEntry(Instant.now(), Operation.ADD, "2", 1));
+        log.append(new LogEntry(Operation.ADD, "1", 4, true));
+        log.append(new LogEntry(Operation.ADD, "2", 1, true));
 
-        log.append(new LogEntry(Instant.now(), Operation.SUB, "1", 2));
-        log.append(new LogEntry(Instant.now(), Operation.ADD, "2", 2));
+        log.append(new LogEntry(Operation.SUB, "1", 2, true));
+        log.append(new LogEntry(Operation.ADD, "2", 2, true));
 
-        var errorLog = new LogEntry(Instant.now(), Operation.ADD, "3", 2);
-        errorLog.setSuccess(false);
+        log.append(new LogEntry(Operation.ADD, "3", 2, true));
 
-        log.append(errorLog);
-
-        var capacity = log.findActualCapacity("2");
+        var actualCapacity = log.findActualCapacity("2");
 
         // then
-        assertEquals( 3.0, capacity, 0.001);
+        assertEquals( 3.0, actualCapacity, 0.001);
     }
 }

@@ -12,14 +12,15 @@ final class InMemoryContainerHub implements ContainerHub, ContainerStatsProvider
     }
 
     @Override
-    public void add(Container container) {
+    public boolean add(Container container) {
         final String name = container.getName();
         if (this.name.contains(name)) {
-            throw new IllegalStateException("Container with name: " + name + " already exists!");
+            return false;
         }
 
         this.name.add(name);
         containers.add(container);
+        return true;
     }
 
     @Override

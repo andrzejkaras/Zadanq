@@ -13,20 +13,20 @@ public class LogEntry {
 
     public LogEntry() {}
 
-    public LogEntry(Instant created, Operation operation, String containerName, double delta) {
+    public LogEntry(Operation operation, String containerName, double delta, boolean successful, Instant created) {
         this.created = created;
         this.operation = operation;
         this.containerName = containerName;
         this.delta = delta;
-        this.success = true;
+        this.success = successful;
     }
 
-    public LogEntry(Operation operation, String containerName, double delta) {
+    public LogEntry(Operation operation, String containerName, double delta, boolean successful) {
         this.created = Instant.now();
         this.operation = operation;
         this.containerName = containerName;
         this.delta = delta;
-        this.success = true;
+        this.success = successful;
     }
 
     public Instant getCreated() {

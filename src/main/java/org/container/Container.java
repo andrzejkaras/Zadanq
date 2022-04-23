@@ -10,29 +10,32 @@ public class Container {
     private double actualCapacity;
     private double maxCapacity;
 
-    public void addWater(double amount) {
+    public boolean addWater(double amount) {
         if (!canAdd(amount)) {
-            return;
+            return false;
         }
 
         add(amount);
+        return true;
     }
 
-    public void removeWater(double amount) {
+    public boolean removeWater(double amount) {
         if (!canRemove(amount)) {
-            return;
+            return false;
         }
 
         remove(amount);
+        return true;
     }
 
-    public void swap(Container from, double amount) {
+    public boolean swap(Container from, double amount) {
         if (!canSwap(from, amount)) {
-            return;
+            return false;
         }
 
         from.remove(amount);
         this.add(amount);
+        return true;
     }
 
     @Override

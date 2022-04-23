@@ -1,7 +1,5 @@
 package org.container;
 
-import java.util.*;
-
 /**
  * Container hub
  *
@@ -11,8 +9,10 @@ public interface ContainerHub {
     /**
      * Adds container
      * @param container new container
+     *
+     * @return true when operation was successful, false otherwise
      */
-    void add(Container container);
+    boolean add(Container container);
 
     /**
      * Returns actual capacity for given container

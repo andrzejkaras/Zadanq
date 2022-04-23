@@ -5,8 +5,6 @@ import org.commons.*;
 import org.container.*;
 import org.junit.*;
 
-import java.time.*;
-
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -14,6 +12,7 @@ public class StateVerifierTest {
     @Test
     public void Given_SetOfContainers_When_DefinedOperationsWouldBeDone_Then_AllContainersShouldHaveCorrectState() {
         // given
+        boolean operationResult = false;
         ContainerHub hub = ContainerHubFactory.get();
         ActionLog log = ActionLogFactory.get();
 
@@ -25,15 +24,15 @@ public class StateVerifierTest {
         hub.add(two);
         hub.add(three);
 
-        one.addWater(4);
-        log.append(new LogEntry(Instant.now(), Operation.ADD, one.getName(), 4));
+        operationResult = one.addWater(4);
+        log.append(new LogEntry(Operation.ADD, one.getName(), 4, operationResult));
 
-        two.addWater(1);
-        log.append(new LogEntry(Instant.now(), Operation.ADD, two.getName(), 1));
+        operationResult = two.addWater(1);
+        log.append(new LogEntry(Operation.ADD, two.getName(), 1, operationResult));
 
-        two.swap(one, 2);
-        log.append(new LogEntry(Instant.now(), Operation.SUB, one.getName(), 2));
-        log.append(new LogEntry(Instant.now(), Operation.ADD, two.getName(), 2));
+        operationResult = two.swap(one, 2);
+        log.append(new LogEntry(Operation.SUB, one.getName(), 2, operationResult));
+        log.append(new LogEntry(Operation.ADD, two.getName(), 2, operationResult));
 
         StateVerifier verifier = new BasicStateVerifier(hub, log);
 
@@ -63,15 +62,15 @@ public class StateVerifierTest {
         hub.add(three);
 
         one.addWater(4);
-        log.append(new LogEntry(Instant.now(), Operation.ADD, one.getName(), 4));
+        log.append(new LogEntry(Operation.ADD, one.getName(), 4, true));
 
         two.addWater(1);
-        log.append(new LogEntry(Instant.now(), Operation.ADD, two.getName(), 1));
+        log.append(new LogEntry(Operation.ADD, two.getName(), 1, true));
 
         two.swap(one, 2);
-        log.append(new LogEntry(Instant.now(), Operation.SUB, one.getName(), 2));
+        log.append(new LogEntry(Operation.SUB, one.getName(), 2, true));
 
-        var temp = new LogEntry(Instant.now(), Operation.ADD, two.getName(), 2);
+        var temp = new LogEntry(Operation.ADD, two.getName(), 2, true);
         temp.setSuccess(false);
         log.append(temp);
 
