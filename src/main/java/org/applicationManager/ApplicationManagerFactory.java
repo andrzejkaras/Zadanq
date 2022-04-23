@@ -9,6 +9,6 @@ public class ApplicationManagerFactory {
         ContainerHub hub = ContainerHubFactory.get();
         ActionLog log = ActionLogFactory.get();
 
-        return new ApplicationManager(hub, log, StateVerifierFactory.get(hub, log));
+        return new BasicApplicationManager(hub, log, StateVerifierFactory.get(hub, log));
     }
 }
