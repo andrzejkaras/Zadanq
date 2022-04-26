@@ -1,5 +1,7 @@
 package org.actionLog;
 
+import java.util.*;
+
 /**
  * Application log.
  *
@@ -18,4 +20,6 @@ public interface ActionLog {
      * @return actual capacity of container
      */
     double findActualCapacity(String name);
+
+    List<LogEntry> getData();
 }

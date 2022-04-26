@@ -59,6 +59,11 @@ final class InMemoryLog implements ActionLog, EventStatsProvider {
         return capacity;
     }
 
+    @Override
+    public List<LogEntry> getData() {
+        return actionLog;
+    }
+
     private Set<String> findMaxFrom(Map<String, Integer> map) {
         int max = -1;
         Set<String> names = new HashSet<>();

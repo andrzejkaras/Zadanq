@@ -3,7 +3,10 @@ package org.applicationManager;
 import org.actionLog.*;
 import org.commons.*;
 import org.container.*;
+import org.logSerializer.*;
 import org.verifier.*;
+
+import java.util.*;
 
 /**
  * Facade class for main API.
@@ -12,20 +15,17 @@ class BasicApplicationManager implements ApplicationManager {
     private final ContainerHub containerHub;
     private final ActionLog actionLog;
     private final StateVerifier verifier;
+    private final LogSerializer logSerializer;
 
-    public BasicApplicationManager(ContainerHub hub, ActionLog actionLog, StateVerifier verifier) {
+    public BasicApplicationManager(ContainerHub hub, ActionLog actionLog, StateVerifier verifier, LogSerializer logSerializer) {
         this.containerHub = hub;
         this.actionLog = actionLog;
         this.verifier = verifier;
+        this.logSerializer = logSerializer;
     }
 
-    public boolean createContainer(String name) {
-        Container container = new Container(name);
-        return containerHub.add(container);
-    }
-
-    public boolean createContainer(String name, double capacity) {
-        Container container = new Container(name, capacity);
+    public boolean createContainer(CreateContainerData data) {
+        Container container = new Container(data.getName());
         return containerHub.add(container);
     }
 
@@ -69,5 +69,11 @@ class BasicApplicationManager implements ApplicationManager {
 
     public EventStatsProvider getEventStatsProvider() {
         return (EventStatsProvider) actionLog;
+    }
+
+    @Override
+    public boolean saveLog(String filename) {
+        List<LogEntry> entries = this.actionLog.getData();
+        return this.logSerializer.save(entries, filename);
     }
 }

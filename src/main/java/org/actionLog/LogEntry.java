@@ -29,6 +29,17 @@ public class LogEntry {
         this.success = successful;
     }
 
+    @Override
+    public String toString() {
+        return "LogEntry{" +
+                "created=" + created +
+                ", operation=" + operation +
+                ", containerName='" + containerName + '\'' +
+                ", delta=" + delta +
+                ", success=" + success +
+                '}';
+    }
+
     public Instant getCreated() {
         return created;
     }
