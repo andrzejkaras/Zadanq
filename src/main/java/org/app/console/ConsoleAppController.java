@@ -42,9 +42,9 @@ public class ConsoleAppController {
                 return;
             }
 
-            OperationHandler<CreateContainerData> operationHandler = operationHandlerMap.get(operation);
+            OperationHandler operationHandler = operationHandlerMap.get(operation);
             if (operationHandler != null) {
-                DataTranslator<CreateContainerData> dataTranslator = dataTranslatorMap.get(operation);
+                DataTranslator dataTranslator = dataTranslatorMap.get(operation);
 
                 if (dataTranslator != null) {
                     operationHandler.handle(operation, dataTranslator.translate(commandLine));

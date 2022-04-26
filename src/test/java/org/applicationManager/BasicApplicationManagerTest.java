@@ -1,5 +1,6 @@
 package org.applicationManager;
 
+import org.commons.*;
 import org.junit.*;
 
 import static org.junit.Assert.assertTrue;
@@ -11,9 +12,9 @@ public class BasicApplicationManagerTest {
         // given
         ApplicationManager basicApplicationManager = ApplicationManagerFactory.get();
 
-        basicApplicationManager.createContainer("1");
-        basicApplicationManager.createContainer("2", 3);
-        basicApplicationManager.createContainer("3", 10);
+        basicApplicationManager.createContainer(new CreateContainerData("1", 3));
+        basicApplicationManager.createContainer(new CreateContainerData("2", 3));
+        basicApplicationManager.createContainer(new CreateContainerData("3", 10));
 
         basicApplicationManager.addWater("1", 1);
         basicApplicationManager.addWater("2", 3);

@@ -60,7 +60,7 @@ final class InMemoryContainerHub implements ContainerHub, ContainerStatsProvider
     @Override
     public Container getByName(String name) {
         return containers.stream()
-            .filter(container -> container.getName().equals(name)).findFirst()
+            .filter(container -> container.getName().toLowerCase().equals(name.toLowerCase())).findFirst()
             .orElse(null);
     }
 }

@@ -6,6 +6,6 @@ import org.dataTranslator.*;
 public class CreateDataParser implements InputParser<CreateContainerData> {
     @Override
     public CreateContainerData parse(String[] data) {
-        return new CreateContainerData(data[0].toUpperCase(), Double.parseDouble(data[1]));
+        return new CreateContainerData(data[0], Double.parseDouble(data[1]));
     }
 }

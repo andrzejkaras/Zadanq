@@ -1,17 +1,17 @@
 package org.commons;
 
 public class SaveToFileData {
-    private String fileName;
+    private String filename;
 
     public SaveToFileData(String fileName) {
-        this.fileName = fileName;
+        this.filename = fileName;
     }
 
-    public String getFileName() {
-        return fileName;
+    public String getFilename() {
+        return filename;
     }
 
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
+    public void setFilename(String filename) {
+        this.filename = filename;
     }
 }

@@ -4,7 +4,7 @@ import org.applicationManager.*;
 import org.commandHandler.create.*;
 import org.commons.*;
 
-public class SaveToFileHandler implements OperationHandler<SaveToFileCommand> {
+public class SaveToFileHandler implements OperationHandler<SaveToFileData> {
     private final ApplicationManager manager;
 
     public SaveToFileHandler(ApplicationManager applicationManager) {
@@ -12,7 +12,7 @@ public class SaveToFileHandler implements OperationHandler<SaveToFileCommand> {
     }
 
     @Override
-    public boolean handle(Operation operation, SaveToFileCommand command) {
+    public boolean handle(Operation operation, SaveToFileData command) {
         return manager.saveLog(command.getFilename());
     }
 }
